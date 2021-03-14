@@ -32,6 +32,6 @@ public class ProjectController {
 
         proRepo.save(project);
 
-        return"redirect:/projects/new-project";
+        return"redirect:/projects/new";
     }
 }
