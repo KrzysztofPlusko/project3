@@ -9,12 +9,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.krzysiek.spring.project3.entities.Project;
 import pl.krzysiek.spring.project3.repositories.IProjectRepository;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/projects")
 public class ProjectController {
 
     @Autowired
     IProjectRepository proRepo;
+
+    @GetMapping
+    public String displayProjects(Model model) {
+        List<Project> projectList = proRepo.findAll();
+        model.addAttribute("projects", projectList);
+        return "projects/list-projects";
+    }
 
     @GetMapping("/new")
     public String displayProjectForm(Model model) {
