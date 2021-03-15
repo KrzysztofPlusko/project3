@@ -1,9 +1,6 @@
 package pl.krzysiek.spring.project3.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Employee {
@@ -16,6 +13,11 @@ public class Employee {
     private String lastName;
     private String email;
 
+    @ManyToOne( cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+               fetch = FetchType.LAZY)
+    @JoinColumn(name="project_id")
+    private Project theProject;
+
     public Employee() {
     }
 
@@ -23,6 +25,14 @@ public class Employee {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public Project getTheProject() {
+        return theProject;
+    }
+
+    public void setTheProject(Project theProject) {
+        this.theProject = theProject;
     }
 
     public long getEmployeeId() {
