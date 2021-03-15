@@ -6,7 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.krzysiek.spring.project3.entities.Employee;
 import pl.krzysiek.spring.project3.entities.Project;
+import pl.krzysiek.spring.project3.repositories.IEmployeeRepository;
 import pl.krzysiek.spring.project3.repositories.IProjectRepository;
 
 import java.util.List;
@@ -17,6 +19,9 @@ public class ProjectController {
 
     @Autowired
     IProjectRepository proRepo;
+
+    @Autowired
+    IEmployeeRepository empRepo;
 
     @GetMapping
     public String displayProjects(Model model) {
@@ -29,9 +34,11 @@ public class ProjectController {
     public String displayProjectForm(Model model) {
 
         Project aProject = new Project();
+        List<Employee> employees = empRepo.findAll();
         model.addAttribute("project", aProject);
+        model.addAttribute("allEmployees", employees );
 
-        return "/projects/new-project";
+        return "projects/new-project";
 
     }
 
