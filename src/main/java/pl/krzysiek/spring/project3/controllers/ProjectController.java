@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.krzysiek.spring.project3.entities.Employee;
 import pl.krzysiek.spring.project3.entities.Project;
 import pl.krzysiek.spring.project3.repositories.IEmployeeRepository;
@@ -44,9 +45,15 @@ public class ProjectController {
 
     @PostMapping("save")
 
-    public String createProject(Model Model, Project project) {
+    public String createProject(Model Model, @RequestParam List<Long> employees, Project project) {
 
         proRepo.save(project);
+
+        Iterable<Employee> chosenEmployees = empRepo.findAllById(employees);
+            for(Employee emp : chosenEmployees) {
+                emp.setTheProject(project);
+                empRepo.save(emp);
+            }
 
         return"redirect:/projects/new";
     }
